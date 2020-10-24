@@ -1,18 +1,17 @@
 <?php
+
 include_once "verificarSessao.php";
 include_once "../app/model/Cliente.php";
 include_once "../app/model/Usuario.php";
-include_once "../app/controller/ClienteController.php";
-
-if (isset($_GET['id'])){
-    if (\controller\ClienteController::getInstance()->excluir($_GET['id'])){
-        echo "<b>Cliente excluído com sucesso</b>";
-    }
-}
+include_once "../app/model/Mesa.php";
+include_once "../app/model/Reserva.php";
+include_once "../app/controller/ReservaController.php";
 
 $usuarioLogado = unserialize($_SESSION['usuario']);
 
-$listaClientes = array();//\controller\ClienteController::getInstance()->retornaTodos();
+if (isset($_POST['filtrar'])) {
+    $listaReservas = \controller\ReservaController::getInstance()->retornaFiltro($_POST['data_reserva']);
+}
 
 ?>
 <!DOCTYPE html>
@@ -263,32 +262,49 @@ $listaClientes = array();//\controller\ClienteController::getInstance()->retorna
             <div class="container-fluid">
 
                 <h2>Listagem de Reservas</h2>
-                <p><a href="cadastroReserva.php" class="btn btn-success">Nova Reserva</a></p>
+                <p>
+                    <a href="cadastroReserva.php" class="btn btn-success align-content-start">Nova Reserva</a>
+                    <form action="#" method="POST">
+                        <div class="form-row">
+                            <input required class="col-3 align-content-end" type="date" name="data_reserva">
+                            <button type="submit" name="filtrar" class="btn btn-primary col-2">Filtrar</button>
+                        </div>
+                    </form>
+                </p>
+                <?php
+                    if (!empty($listaReservas)) {
+                ?>
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th>id</th>
-                        <th>Nome</th>
-                        <th>Telefone</th>
-                        <th>Email</th>
-                        <th>-</th>
+                        <th>Cliente</th>
+                        <th>Mesa</th>
+                        <th>Usuario</th>
+                        <th>Data da Reserva</th>
+                        <th>Realizada em</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-                    foreach ($listaClientes as $cliente){
+                    foreach ($listaReservas as $reserva){
                         echo "<tr>";
-                        echo "<td>".$cliente->getId()."</td>";
-                        echo "<td>".$cliente->getNome()."</td>";
-                        echo "<td>".$cliente->getTelefone()."</td>";
-                        echo "<td>".$cliente->getEmail()."</td>";
-                        echo "<td><a href='listaClientes.php?id=".$cliente->getId()."' class='btn btn-danger'>Excluir</a>&nbsp;
-                                <a href='cadastroCliente.php?id=".$cliente->getId()."' class='btn btn-dark'>Editar</a></td>";
+                        echo "<td>".$reserva->getCliente()->getNome()."</td>";
+                        echo "<td>".$reserva->getMesa()->getDescricao()."</td>";
+                        echo "<td>".$reserva->getUsuario()->getNome()."</td>";
+                        echo "<td>".$reserva->getDataReserva()."</td>";
+                        echo "<td>".$reserva->getDataAgendamento()."</td>";
+//                        echo "<td><a href='listaReservas.php?id_mesa=".$reserva->getMesa()->getId()."&?data_reserva=".$reserva->getDataReserva()."' class='btn btn-danger'>Excluir</a>&nbsp;
+//                                <a href='cadastroCliente.php?id=".$reserva->getCliente()->getId()."' class='btn btn-dark'>Editar</a></td>";
                         echo "</tr>";
                     }
                     ?>
                     </tbody>
                 </table>
+                <?php
+                    }else{
+                        echo "<div class='alert alert-warning'>Não há reservas para a data selecionada...</div>";
+                    }
+                ?>
 
             </div>
             <!-- /.container-fluid -->

@@ -4,28 +4,29 @@ include_once "../app/model/Cliente.php";
 include_once "../app/model/Usuario.php";
 include_once "../app/controller/ClienteController.php";
 include_once "../app/model/Mesa.php";
+include_once "../app/model/Reserva.php";
 include_once "../app/controller/MesaController.php";
-
+include_once "../app/controller/ReservaController.php";
 
 $usuarioLogado = unserialize($_SESSION['usuario']);
-//echo $usuarioLogado->getId();
 
 $listaClientes = \controller\ClienteController::getInstance()->retornaTodos();
 $listaMesas = \controller\MesaController::getInstance()->retornaTodos();
 
-if (isset($_GET['id'])){
-    //$cliente = \controller\ClienteController::getInstance()->buscarCliente($_GET['id']);
-}
-
 if (isset($_POST['gravar'])){
-    /*$cliente->setId("0".$_POST['id']);
-    $cliente->setNome($_POST['nome']);
-    $cliente->setTelefone($_POST['telefone']);
-    $cliente->setEmail($_POST['email']);
 
-    if (\controller\ClienteController::getInstance()->gravar($cliente)){
-        header('Location: listaClientes.php');
-    }*/
+    $reserva = new \model\Reserva();
+    $reserva->getUsuario()->setId($usuarioLogado->getId());
+    $reserva->getMesa()->setId($_POST['mesa']);
+    $reserva->getCliente()->setId($_POST['cliente']);
+    $reserva->setDataReserva($_POST['data_reserva']);
+
+    if (\controller\ReservaController::getInstance()->gravar($reserva)){
+        header('Location: listaReservas.php');
+    }else{
+        echo "<script>alert('A mesa escolhida já está reservada para esta data...');</script>";
+    }
+
 }
 
 ?>
@@ -279,7 +280,7 @@ if (isset($_POST['gravar'])){
                 <h2>Reservar Mesa</h2>
 
                 <form action="#" method="post">
-                    <input type="hidden" name="id" value="<?php //echo $cliente->getId();?>">
+<!--                    <input type="hidden" name="id" value="--><?php ////echo $cliente->getId();?><!--">-->
                     <div class="form-group">
                         <label for="cliente">Cliente</label>
                         <select name="cliente" class="form-control" id="">
@@ -304,11 +305,11 @@ if (isset($_POST['gravar'])){
                     </div>
                     <div class="form-group">
                         <label for="data">Data Agendada</label>
-                        <input type="date" name="dataagenda" id="" class="form-control">
+                        <input type="date" name="data_reserva" id="" class="form-control">
                     </div>
                     <div class="form-group">
                         <button class="btn btn-success" type="submit" name="gravar">Gravar</button>
-                        <a href="listaClientes.php" class="btn btn-danger">Cancelar</a>
+                        <a href="listaReservas.php" class="btn btn-danger">Cancelar</a>
                     </div>
 
                 </form>
