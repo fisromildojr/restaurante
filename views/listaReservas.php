@@ -289,7 +289,7 @@ if (isset($_POST['filtrar'])) {
                     foreach ($listaReservas as $reserva){
                         echo "<tr>";
                         echo "<td>".$reserva->getCliente()->getNome()."</td>";
-                        echo "<td>".$reserva->getMesa()->getDescricao()."</td>";
+                        echo "<td>".$reserva->getMesa()->getDescricao()." - ".$reserva->getMesa()->getLugares()." Lugares - ".$reserva->getMesa()->getPosicao()."</td>";
                         echo "<td>".$reserva->getUsuario()->getNome()."</td>";
                         echo "<td>".$reserva->getDataReserva()."</td>";
                         echo "<td>".$reserva->getDataAgendamento()."</td>";

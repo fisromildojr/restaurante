@@ -25,10 +25,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe6d1174-a1fa-4b13-b68b-557ba3a8230f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/controller/ReservaController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/model/Reserva.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/cadastroReserva.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/cadastroReserva.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/listaReservas.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/listaReservas.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,7 +92,7 @@
       <workItem from="1603384487121" duration="2036000" />
       <workItem from="1603392060644" duration="20074000" />
       <workItem from="1603423808092" duration="3551000" />
-      <workItem from="1603492098360" duration="5020000" />
+      <workItem from="1603492098360" duration="8860000" />
     </task>
     <task id="LOCAL-00001" summary="Aula dia: 01/10/2020">
       <created>1601595057489</created>
